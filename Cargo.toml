@@ -1,0 +1,51 @@
+[package]
+name = "sysinfo-http"
+version = "0.0.1"
+edition = "2021"
+authors = ["rainbowflesh"]
+rust-version = "1.59"
+description = "A sysinfo http server to fetch system information"
+documentation = "https://github.com/rainbowflesh/sysinfo-http"
+readme = "Readme.md"
+homepage = "https://github.com/rainbowflesh/sysinfo-http"
+repository = "https://github.com/rainbowflesh/sysinfo-http"
+license = "AGPL-3.0-or-later"
+license-file = "license"
+keywords = ["cross-platform", "monitoring", "dashboard", "top", "http-server"]
+categories = ["web-programming::http-server"]
+exclude = [
+    ".github/",
+    "assets/",
+    "docs/",
+    "sample_configs/",
+    "scripts/",
+    "CHANGELOG.md",
+    "clippy.toml",
+    "CONTRIBUTING.md",
+    "rustfmt.toml",
+]
+
+[dependencies]
+sysinfo = { version = "0", features = ["serde"] }
+serde = { version = "1", features = ["derive"] }
+tokio = { version = "1", features = ["full"] }
+tower = { version = "0" }
+tower-http = { version = "0", features = ["cors", "trace"] }
+axum = { version = "0", features = [
+    "tracing",
+    "ws",
+    "http2",
+    "macros",
+    "multipart",
+] }
+tracing-subscriber = { version = "0", features = ["json"] }
+clap = { version = "4", features = ["derive", "unicode", "wrap_help"] }
+anyhow = "1"
+serde_json = "1"
+termcolor = "1"
+tracing = "0"
+curl = "0"
+libc = "0"
+hashbrown = "0"
+regex = "1"
+toml = "0"
