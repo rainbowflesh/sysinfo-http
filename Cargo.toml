@@ -25,6 +25,11 @@ exclude = [
     "rustfmt.toml",
 ]
 
+[[bin]]
+name = "sysinfo-http"
+path = "src/main.rs"
+doc = false
+
 [dependencies]
 sysinfo = { version = "0", features = ["serde"] }
 serde = { version = "1", features = ["derive"] }
