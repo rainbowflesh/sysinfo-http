@@ -3,6 +3,8 @@ use crate::app::routes::sysinfo_router::append_sysinfo_route;
 use crate::app::utils::cli_helper::{handle_start_args, CliArgs};
 use crate::app::utils::logger::add_logger;
 use axum::Server;
+#[cfg(unix)]
+use tokio::sync::oneshot::{Receiver, Sender};
 use tower_http::cors::{Any, CorsLayer};
 use tower_http::trace::TraceLayer;
 use tracing::info;
@@ -23,10 +25,7 @@ pub async fn start_server() {
 
 #[cfg(unix)]
 async fn handle_signal(shutdown_tx: Sender<()>) {
-    use std::fs;
     use tokio::signal::unix::{signal, SignalKind};
-    use tokio::sync::oneshot::{Receiver, Sender};
-    use toml::Value;
     let signal_handler = tokio::spawn(async {
         tokio::pin! {
           let interrupt = signal(SignalKind::interrupt()).expect("could not open SIGINT channel");
@@ -60,16 +59,17 @@ async fn handle_signal(shutdown_tx: Sender<()>) {
 
 #[cfg(unix)]
 async fn init_server(args: CliArgs, shutdown_rx: Receiver<()>) {
-    add_logger(Level::DEBUG, &args.logging_path);
-
+    let bind_url = &args.bind;
+    let log_level = args.log_level;
+    let log_path = &args.log_path;
+    add_logger(log_level.clone(), log_path).expect("Unable to create logger");
     let cors = CorsLayer::new().allow_origin(Any);
-
     let base_router = create_base_router();
     let app = append_sysinfo_route(base_router)
         .layer(cors)
         .layer(TraceLayer::new_for_http());
-    let bind_url = &args.bind;
     info!("Server running on: http://{bind_url}");
+    info!("Logging level: {log_level} ");
     Server::bind(&bind_url.parse().unwrap())
         .serve(app.into_make_service())
         .with_graceful_shutdown(async {
@@ -78,17 +78,20 @@ async fn init_server(args: CliArgs, shutdown_rx: Receiver<()>) {
         .await
         .expect("could not launch HTTP server on {bind_url}");
 }
+
 #[cfg(not(unix))]
 async fn init_server(args: CliArgs) {
-    add_logger(args.logging_level, &args.path).expect("Unable to create logger");
-
+    let bind_url = &args.bind;
+    let log_level = args.log_level;
+    let log_path = &args.log_path;
+    add_logger(log_level.clone(), log_path).expect("Unable to create logger");
     let cors = CorsLayer::new().allow_origin(Any);
     let base_router = create_base_router();
     let app = append_sysinfo_route(base_router)
         .layer(cors)
         .layer(TraceLayer::new_for_http());
-    let bind_url = &args.bind;
     info!("Server running on: http://{bind_url}");
+    info!("Logging level: {log_level} ");
     Server::bind(&bind_url.parse().unwrap())
         .serve(app.into_make_service())
         .await
@@ -105,19 +108,21 @@ mod tests {
     #[tokio::test]
     async fn test_gracefully_shutdown() {
         let args = handle_start_args();
+        // TODO: finish multithread test
+        let _star_platinum = tokio::runtime::Builder::new_multi_thread()
+            .worker_threads(4)
+            .enable_io()
+            .enable_time()
+            .build()
+            .unwrap();
 
         info!("make a server");
         #[cfg(unix)]
         {
-            // TODO: finish multithread test
-            let star_platinum = tokio::runtime::Builder::new_multi_thread()
-                .worker_threads(4)
-                .enable_io()
-                .enable_time()
-                .build()
-                .unwrap();
             let (shutdown_tx, shutdown_rx) = tokio::sync::oneshot::channel::<()>();
             init_server(args, shutdown_rx).await;
+            debug!("wait request complete");
+            handle_signal(shutdown_tx).await;
         }
         #[cfg(not(unix))]
         {
@@ -129,11 +134,6 @@ mod tests {
         curl.url("http://localhost:8888/temperatures").unwrap();
 
         debug!("wait request complete");
-        #[cfg(unix)]
-        {
-            handle_signal(shutdown_tx).await;
-        }
-
         debug!("shutdown");
     }
 }

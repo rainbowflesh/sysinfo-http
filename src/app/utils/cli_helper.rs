@@ -1,29 +1,27 @@
-use clap::Parser;
 use std::io::Write;
+
+use clap::Parser;
 use termcolor::{Color, ColorChoice, ColorSpec, StandardStream, WriteColor};
 
 #[derive(Parser, Debug)]
 #[command(author, version, about)]
 pub struct CliArgs {
     /// bind a host, ip only no domain allowed
-    #[arg(short, long)]
+    #[arg(short, long, default_value = "127.0.0.1:8000")]
     pub bind: String,
 
     /// log file path
-    #[arg(short, long)]
-    pub path: String,
+    #[arg(long, default_value = "./")]
+    pub log_path: String,
 
-    /// logger level: trace | debug | info | warn | error
-    #[arg(short, long)]
-    pub logging_level: String,
+    /// logger level: | debug | info | error
+    #[arg(short, long, default_value = "debug")]
+    pub log_level: String,
 }
 
 pub fn handle_start_args() -> CliArgs {
-    let args = CliArgs::parse();
-    println!("Server running on http://{} ", args.bind);
-    println!("Logging level: {} ", args.logging_level);
-    println!("Log file path: {} ", args.path);
     print_credits();
+    let args = CliArgs::parse();
     args
 }
 

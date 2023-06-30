@@ -13,6 +13,7 @@ license = "AGPL-3.0-or-later"
 license-file = "LICENSE"
 keywords = ["cross-platform", "monitoring", "dashboard", "top", "http-server"]
 categories = ["web-programming::http-server"]
+default-run = "sysinfo-http"
 exclude = [
     ".github/",
     "assets/",
