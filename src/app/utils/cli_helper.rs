@@ -14,7 +14,7 @@ pub struct CliArgs {
     #[arg(long, default_value = "./")]
     pub log_path: String,
 
-    /// logger level: | debug | info | error
+    /// logger level: debug | info | error
     #[arg(short, long, default_value = "debug")]
     pub log_level: String,
 }
