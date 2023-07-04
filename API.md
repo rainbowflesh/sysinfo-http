@@ -14,10 +14,30 @@
          1. [Try it](#try-it-2)
          2. [Success](#success-2)
          3. [Error](#error-2)
-      4. [Temperatures](#temperatures)
+      4. [Network](#network)
          1. [Try it](#try-it-3)
          2. [Success](#success-3)
          3. [Error](#error-3)
+      5. [Temperatures](#temperatures)
+         1. [Try it](#try-it-4)
+         2. [Success](#success-4)
+         3. [Error](#error-4)
+      6. [Load Average](#load-average)
+         1. [Try it](#try-it-5)
+         2. [Success](#success-5)
+         3. [Error](#error-5)
+      7. [Boot Time](#boot-time)
+         1. [Try it](#try-it-6)
+         2. [Success](#success-6)
+         3. [Error](#error-6)
+      8. [System Infomation aka `uname -a`](#system-infomation-aka-uname--a)
+         1. [Try it](#try-it-7)
+         2. [Success](#success-7)
+         3. [Error](#error-7)
+      9. [Users](#users)
+         1. [Try it](#try-it-8)
+         2. [Success](#success-8)
+         3. [Error](#error-8)
    2. [Common API](#common-api)
       1. [Root path](#root-path)
          1. [Response](#response)
@@ -144,6 +164,39 @@ curl -X GET '127.0.0.1:8000/memory'
   "Internal Server Error"
   ```
 
+### Network
+
+> request{method=GET uri=/networks version=HTTP/1.1}
+
+#### Try it
+
+```bash
+curl -X GET '127.0.0.1:8000/networks'
+```
+
+#### Success
+
+- HTTPS status code: `200`
+- Response example:
+
+  ```json
+  [
+    { "interface_name": "wlp1s0", "data_received": 927, "data_transmitted": 281 },
+    { "interface_name": "lo", "data_received": 0, "data_transmitted": 0 }
+  ]
+  ```
+
+- unit: `byte`
+
+#### Error
+
+- HTTP status code: `500`
+- Response example:
+
+  ```json
+  "Internal Server Error"
+  ```
+
 ### Temperatures
 
 > request{method=GET uri=/temperatures version=HTTP/1.1}
@@ -191,6 +244,136 @@ curl -X GET '127.0.0.1:8000/temperatures'
   ```
 
 - unit: `Celsius`
+
+#### Error
+
+- HTTP status code: `500`
+- Response example:
+
+  ```json
+  "Internal Server Error"
+  ```
+
+### Load Average
+
+Obtain the average CPU usage within one minute, five minutes, and fifteen minutes.
+
+> request{method=GET uri=/load_average version=HTTP/1.1}
+
+#### Try it
+
+```bash
+curl -X GET '127.0.0.1:8000/load_average'
+```
+
+#### Success
+
+- HTTPS status code: `200`
+- Response example:
+
+  ```json
+  [{ "one": 2.22, "five": 2.34, "fifteen": 2.75 }]
+  ```
+
+- unit: `percent`
+
+#### Error
+
+- HTTP status code: `500`
+- Response example:
+
+  ```json
+  "Internal Server Error"
+  ```
+
+### Boot Time
+
+> request{method=GET uri=/boot_time version=HTTP/1.1}
+
+#### Try it
+
+```bash
+curl -X GET '127.0.0.1:8000/boot_time'
+```
+
+#### Success
+
+- HTTPS status code: `200`
+- Response example:
+
+  ```txt
+  1688377060
+  ```
+
+- unit: `unix timestamp`
+
+#### Error
+
+- HTTP status code: `500`
+- Response example:
+
+  ```json
+  "Internal Server Error"
+  ```
+
+### System Infomation aka `uname -a`
+
+> request{method=GET uri=/sysinfo version=HTTP/1.1}
+
+#### Try it
+
+```bash
+curl -X GET '127.0.0.1:8000/sysinfo'
+```
+
+#### Success
+
+- HTTPS status code: `200`
+- Response example:
+
+  ```json
+  [
+    {
+      "kernel_version": "6.2.0-20-generic",
+      "os_version": "23.04",
+      "long_os_version": "Linux 23.04 Ubuntu",
+      "distribution_id": "ubuntu",
+      "host_name": "flesh"
+    }
+  ]
+  ```
+
+#### Error
+
+- HTTP status code: `500`
+- Response example:
+
+  ```json
+  "Internal Server Error"
+  ```
+
+### Users
+
+> request{method=GET uri=/users version=HTTP/1.1}
+
+#### Try it
+
+```bash
+curl -X GET '127.0.0.1:8000/users'
+```
+
+#### Success
+
+- HTTPS status code: `200`
+- Response example:
+
+  ```json
+  [
+    { "name": "root", "group": ["root"] },
+    { "name": "nobody", "group": ["nogroup"] },
+    { "name": "rainbow", "group": ["flesh", "sudo", "thegod", "theonetruegod"] }
+  ]
+  ```
 
 #### Error
 
