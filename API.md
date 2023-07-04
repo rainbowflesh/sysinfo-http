@@ -14,10 +14,14 @@
          1. [Try it](#try-it-2)
          2. [Success](#success-2)
          3. [Error](#error-2)
-      4. [Temperatures](#temperatures)
+      4. [Network Stats](#network-stats)
          1. [Try it](#try-it-3)
          2. [Success](#success-3)
          3. [Error](#error-3)
+      5. [Temperatures](#temperatures)
+         1. [Try it](#try-it-4)
+         2. [Success](#success-4)
+         3. [Error](#error-4)
    2. [Common API](#common-api)
       1. [Root path](#root-path)
          1. [Response](#response)
@@ -130,6 +134,39 @@ curl -X GET '127.0.0.1:8000/memory'
       "used_memory": 10208288768,
       "used_swap": 2861334528
     }
+  ]
+  ```
+
+- unit: `byte`
+
+#### Error
+
+- HTTP status code: `500`
+- Response example:
+
+  ```json
+  "Internal Server Error"
+  ```
+
+### Network Stats
+
+> request{method=GET uri=/networks version=HTTP/1.1}
+
+#### Try it
+
+```bash
+curl -X GET '127.0.0.1:8000/networks'
+```
+
+#### Success
+
+- HTTPS status code: `200`
+- Response example:
+
+  ```json
+  [
+    { "interface_name": "wlp1s0", "data_received": 927, "data_transmitted": 281 },
+    { "interface_name": "lo", "data_received": 0, "data_transmitted": 0 }
   ]
   ```
 

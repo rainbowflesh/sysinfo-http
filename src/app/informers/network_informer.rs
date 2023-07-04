@@ -1,5 +1,26 @@
-pub fn get_network_info() {
-    todo!("implement");
+use anyhow::Result;
+use serde::Serialize;
+use sysinfo::{NetworkExt, System, SystemExt};
+
+#[derive(Default, Clone, Debug, Serialize)]
+pub struct NetworkHarvest {
+    pub interface_name: String,
+    pub data_received: u64,
+    pub data_transmitted: u64,
+}
+
+pub fn get_network_info() -> Result<Option<Vec<NetworkHarvest>>> {
+    let mut result: Vec<NetworkHarvest> = Vec::new();
+    let mut sys = System::new_all();
+    sys.refresh_networks();
+    for (interface_name, data) in sys.networks() {
+        result.push(NetworkHarvest {
+            interface_name: interface_name.clone(),
+            data_received: data.received(),
+            data_transmitted: data.transmitted(),
+        });
+    }
+    Ok(Some(result))
 }
 
 #[cfg(test)]
@@ -8,6 +29,7 @@ mod tests {
 
     #[test]
     fn test_get_network_info() {
-        todo!("implement");
+        let res = get_network_info();
+        println!("{:?}", res);
     }
 }

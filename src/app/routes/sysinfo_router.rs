@@ -7,5 +7,6 @@ pub fn append_sysinfo_route(base_router: Router) -> Router {
         .route("/cpus", get(sysinfo_controller::cpus))
         .route("/disks", get(sysinfo_controller::disks))
         .route("/memory", get(sysinfo_controller::memory))
+        .route("/networks", get(sysinfo_controller::networks))
         .route("/temperatures", get(sysinfo_controller::temperatures))
 }
