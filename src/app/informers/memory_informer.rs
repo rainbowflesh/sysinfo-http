@@ -1,6 +1,7 @@
 use anyhow::Result;
 use serde::Serialize;
 use sysinfo::{System, SystemExt};
+
 #[derive(Default, Clone, Debug, Serialize)]
 pub struct MemoryHarvest {
     pub available_memory: u64,
@@ -26,6 +27,10 @@ pub fn get_memory_info() -> Result<Option<Vec<MemoryHarvest>>, anyhow::Error> {
         used_swap: sys.used_swap(),
     });
     Ok(Some(result))
+}
+
+pub fn get_memory_usage_summary() {
+    todo!();
 }
 
 #[cfg(test)]

@@ -23,6 +23,10 @@ pub fn get_network_info() -> Result<Option<Vec<NetworkHarvest>>> {
     Ok(Some(result))
 }
 
+pub fn get_network_summary() {
+    todo!();
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;

@@ -22,10 +22,8 @@ pub fn get_temperature_info() -> Option<Vec<TemperatureHarvest>> {
     Some(temperature_vec)
 }
 
-pub fn get_temperature_as_json() -> String {
-    let mut sys = System::new_all();
-    sys.refresh_components();
-    serde_json::to_string(&sys).unwrap()
+pub fn get_temperature_summary() {
+    todo!();
 }
 
 #[cfg(test)]
@@ -35,11 +33,5 @@ mod tests {
     fn test_get_temperature_info() {
         let result = get_temperature_info();
         println!("{:?}", result);
-    }
-
-    #[test]
-    fn test_get_temperature_as_json() {
-        let temper = get_temperature_as_json();
-        println!("{:?}", temper)
     }
 }
