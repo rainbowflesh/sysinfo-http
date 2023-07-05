@@ -38,6 +38,8 @@ See _[API.md](./API.md)_
 
 ## Build
 
+### Base on your PC Architect
+
 ```bash
 git clone https://github.com/rainbowflesh/sysinfo-http.git
 cd sysinfo-info
