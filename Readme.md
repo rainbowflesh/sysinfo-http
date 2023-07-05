@@ -44,6 +44,21 @@ cd sysinfo-info
 cargo build
 ```
 
+### Cross compile
+
+```bash
+cargo build --target armv7-unknown-linux-gnueabihf
+cargo build --target aarch64-unknown-linux-gnu
+# or use cross-rs
+cross build --target armv7-unknown-linux-gnueabihf
+cross build --target aarch64-unknown-linux-gnu
+```
+
+> Notice:
+> Minimal GCC is `8.3.0`.
+
+## Run
+
 ### Run in develop
 
 ```bash
