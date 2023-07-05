@@ -38,11 +38,23 @@ See _[API.md](./API.md)_
 
 ## Build
 
+### Base on your PC Architect
+
 ```bash
 git clone https://github.com/rainbowflesh/sysinfo-http.git
 cd sysinfo-info
 cargo build
 ```
+
+### Cross compile
+
+```bash
+cargo build --target armv7-unknown-linux-gnueabihf
+
+cargo build --target aarch64-unknown-linux-gnu
+```
+
+## Run
 
 ### Run in develop
 
