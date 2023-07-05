@@ -26,7 +26,7 @@ pub fn get_disk_info() -> Result<Option<Vec<DiskHarvest>>> {
     Ok(Some(result))
 }
 
-pub fn get_disk_usage_summary() {
+pub fn _get_disk_usage_summary() {
     todo!()
 }
 

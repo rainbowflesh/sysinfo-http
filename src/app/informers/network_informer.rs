@@ -23,7 +23,7 @@ pub fn get_network_info() -> Result<Option<Vec<NetworkHarvest>>> {
     Ok(Some(result))
 }
 
-pub fn get_network_summary() {
+pub fn _get_network_summary() {
     todo!();
 }
 

@@ -29,13 +29,12 @@ pub fn get_memory_info() -> Result<Option<Vec<MemoryHarvest>>, anyhow::Error> {
     Ok(Some(result))
 }
 
-pub fn get_memory_usage_summary() {
+pub fn _get_memory_usage_summary() {
     todo!();
 }
 
 #[cfg(test)]
 mod tests {
-    use super::*;
     #[test]
     fn test_get_memory_info() {
         todo!("implement");

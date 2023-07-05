@@ -22,7 +22,7 @@ pub fn get_temperature_info() -> Option<Vec<TemperatureHarvest>> {
     Some(temperature_vec)
 }
 
-pub fn get_temperature_summary() {
+pub fn _get_temperature_summary() {
     todo!();
 }
 

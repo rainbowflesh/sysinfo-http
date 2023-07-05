@@ -9,7 +9,7 @@ use crate::app::informers::{
     cpu_informer::{get_cpu_info, CpuHarvest},
     disk_informer::get_disk_info,
     memory_informer::get_memory_info,
-    network_informer::{get_network_info, NetworkHarvest},
+    network_informer::get_network_info,
     sys_informer::{get_boot_time, get_load_average, get_sysinfo, get_users},
     temperature_informer::{get_temperature_info, TemperatureHarvest},
 };

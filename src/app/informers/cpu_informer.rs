@@ -27,7 +27,7 @@ pub fn get_cpu_info() -> Option<Vec<CpuHarvest>> {
     Some(cpu_vec)
 }
 
-pub fn get_cpu_usage_summary() {
+pub fn _get_cpu_usage_summary() {
     todo!();
 }
 

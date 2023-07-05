@@ -29,7 +29,7 @@ pub fn check_os_support() -> bool {
     is_supported[0]
 }
 
-pub fn get_all() {
+pub fn _get_all() {
     todo!();
 }
 
@@ -67,7 +67,7 @@ pub fn get_load_average() -> Result<Option<Vec<LoadAverageHarvest>>> {
 
 pub fn get_users() -> Result<Option<Vec<UserHarvest>>> {
     let mut result: Vec<UserHarvest> = Vec::new();
-    let mut sys = System::new_all();
+    let sys = System::new_all();
     for user in sys.users() {
         result.push(UserHarvest {
             name: user.name().to_string(),
